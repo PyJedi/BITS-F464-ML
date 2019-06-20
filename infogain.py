@@ -17,13 +17,30 @@ def mean(col):
 def entropy_parent(data,mean):
     nf = len([i for (i, val) in enumerate(data) if val >= mean])
     nnf = len([i for (i, val) in enumerate(data) if val < mean])
-    return -((float(nf)/float(len(data)))*(math.log(float(nf)/float(len(data)),2)))-((float(nnf)/float(len(data)))*(math.log(float(nnf)/float(len(data)),2)))
+    if len(data) != 0:
+        if nf == 0 and nnf == 0:
+            return 0
+        elif nf == 0:
+            return -((float(nnf)/float(len(data)))*(math.log(float(nnf)/float(len(data)),2)))
+        elif nnf == 0:
+            return -((float(nf)/float(len(data)))*(math.log(float(nf)/float(len(data)),2)))
+        else:
+            return -((float(nf)/float(len(data)))*(math.log(float(nf)/float(len(data)),2)))-((float(nnf)/float(len(data)))*(math.log(float(nnf)/float(len(data)),2)))
+    else:
+        return 0
 
 def entropy_node(data):
     nf = len([i for (i, val) in enumerate(data) if val > 0])
     nnf = len([i for (i, val) in enumerate(data) if val == 0])
     if len(data) != 0:
-        return -((float(nf)/float(len(data)))*(math.log(float(nf)/float(len(data)),2)))-((float(nnf)/float(len(data)))*(math.log(float(nnf)/float(len(data)),2)))
+        if nf == 0 and nnf == 0:
+            return 0
+        elif nf == 0:
+            return -((float(nnf)/float(len(data)))*(math.log(float(nnf)/float(len(data)),2)))
+        elif nnf == 0:
+            return -((float(nf)/float(len(data)))*(math.log(float(nf)/float(len(data)),2)))
+        else:
+            return -((float(nf)/float(len(data)))*(math.log(float(nf)/float(len(data)),2)))-((float(nnf)/float(len(data)))*(math.log(float(nnf)/float(len(data)),2)))
     else:
         return 0
 
