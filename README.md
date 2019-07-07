@@ -1,2 +1,2 @@
 # ML-1
-Python implementation of K-Means clustering and information gain for feature selection
+Python implementation of K-Means Clustering, Information Gain and Simple Linear Regression
