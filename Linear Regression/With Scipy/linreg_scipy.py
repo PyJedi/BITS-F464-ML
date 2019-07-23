@@ -34,7 +34,7 @@ def mmre(x,y,m,c):
         yp[i] = (m*x[i]) + c
     mmre = 0
     for i in range(len(y)):
-        mmre = mmre + (abs(y[i]-yp[i])/(y[i]+0.005))
+        mmre = mmre + (abs(y[i]-yp[i])/(y[i]+0.05))
     mmre = mmre/len(y)
     return mmre
 
@@ -44,7 +44,7 @@ def norm(data):
         maxval = max(getcol(data,i))
         minval = min(getcol(data,i))
         for j in range(len(data)):
-            ndata[j][i] = (data[j][i]-minval)/((maxval-minval)+0.005)
+            ndata[j][i] = (data[j][i]-minval)/((maxval-minval)+0.05)
     return ndata
 
 slope = [[0 for i in range(20)] for j in range(56)]
