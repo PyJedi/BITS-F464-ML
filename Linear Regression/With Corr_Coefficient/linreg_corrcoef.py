@@ -45,7 +45,7 @@ def mmre(x,y,m,c):
 
 # A function to return the slope and intercept of y^
 def linreg(x,y):
-    m = float((np.corrcoef(x,y)[0][1])*np.std(y))/float(np.std(x)+0.005)
+    m = float((np.corrcoef(x,y)[0][1])*np.std(y))/float(np.std(x)+0.05)
     c = mean(y) - m*(mean(x))
     return m, c
 
@@ -56,7 +56,7 @@ def norm(data):
         maxval = max(getcol(data,i))
         minval = min(getcol(data,i))
         for j in range(len(data)):
-            ndata[j][i] = (data[j][i]-minval)/((maxval-minval)+0.005)
+            ndata[j][i] = (data[j][i]-minval)/((maxval-minval)+0.05)
     return ndata
 
 slope = [[0 for i in range(20)] for j in range(56)]
