@@ -1,6 +1,5 @@
 '''
 ***Simple Linear Regression***
-with Scipy
 
 Author :
 Pranath Reddy
@@ -8,16 +7,21 @@ Pranath Reddy
 '''
 import csv
 import math 
-from scipy import stats
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+# A function to calculate the mean of an array
+def mean(col): 
+    return float(sum(col)) / float(len(col))
+
+# A function to return the column at specified index
 def getcol(data,c):
     col = []
     for i in range(len(data)):
         col.append(data[i][c])
     return col
 
+# A function to return root mean square error
 def rmse(x,y,m,c):
     yp = [0 for i in range(len(x))]
     for i in range(len(x)):
@@ -28,23 +32,31 @@ def rmse(x,y,m,c):
     rmse = math.sqrt(rmse/len(y))
     return rmse
 
+# A function to return mean-magnitude relative error
 def mmre(x,y,m,c):
     yp = [0 for i in range(len(x))]
     for i in range(len(x)):
         yp[i] = (m*x[i]) + c
     mmre = 0
     for i in range(len(y)):
-        mmre = mmre + (abs(y[i]-yp[i])/(y[i]+0.05))
+        mmre = mmre + (abs(y[i]-yp[i])/(y[i]+0.005))
     mmre = mmre/len(y)
     return mmre
 
+# A function to return the slope and intercept of y^
+def linreg(x,y):
+    m = float((np.corrcoef(x,y)[0][1])*np.std(y))/float(np.std(x)+0.005)
+    c = mean(y) - m*(mean(x))
+    return m, c
+
+# A function to implement min-max normalization
 def norm(data):
     ndata = data
     for i in range(21):
         maxval = max(getcol(data,i))
         minval = min(getcol(data,i))
         for j in range(len(data)):
-            ndata[j][i] = (data[j][i]-minval)/((maxval-minval)+0.05)
+            ndata[j][i] = (data[j][i]-minval)/((maxval-minval)+0.005)
     return ndata
 
 slope = [[0 for i in range(20)] for j in range(56)]
@@ -53,22 +65,26 @@ RMSE = [[0 for i in range(20)] for j in range(56)]
 MMRE = [[0 for i in range(20)] for j in range(56)]
 for i in range(56):
     data = []
+    # import the data
     with open(str(i+1)+".csv") as csvfile:
         reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC) 
         for row in reader: 
             data.append(row)
 
+    # normalize the data
     data = norm(data)
     data = np.asarray(data)
+    # split into dependent and independent variables
     x = data[:,:-1]
     y = data[:,-1]
 
+    # split into testing and training sets
     x_tr, x_ts, y_tr, y_ts = train_test_split(x, y, test_size=0.3)
     for j in range(20):
         x = getcol(x_tr,j)
         x_ts1 = getcol(x_ts,j)
         y = y_tr
-        m, c, r_value, p_value, std_err = stats.linregress(x,y)
+        m, c = linreg(x,y)
         slope[i][j] = m
         intercept[i][j] = c
         RMSE[i][j] = rmse(x_ts1,y_ts,m,c)

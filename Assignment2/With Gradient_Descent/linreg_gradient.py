@@ -36,7 +36,7 @@ def mmre(x,y,m,c):
         yp[i] = (m*x[i]) + c
     mmre = 0
     for i in range(len(y)):
-        mmre = mmre + (abs(y[i]-yp[i])/(y[i]+0.05))
+        mmre = mmre + (abs(y[i]-yp[i])/(y[i]+0.005))
     mmre = mmre/len(y)
     return mmre
 
